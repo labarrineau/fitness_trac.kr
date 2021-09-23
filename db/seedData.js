@@ -1,17 +1,98 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
-// const { } = require('./');
-const client = require('./client');
+
+const { client } = require('./client');
+
+const {
+  getActivityById,
+  getAllActivities,
+  createActivity,
+  updateActivity
+} = require('./');
+
+const {
+  getRoutineActivityById,
+  addActivityToRoutine,
+  destroyRoutineActivity,
+  getRoutineActivitiesByRoutine
+} = require('./');
+
+const {
+  getRoutineById,
+  getRoutinesWithoutActivities,
+  getAllRoutines,
+  getAllPublicRoutines,
+  getAllRoutinesByUser,
+  getPublicRoutinesByUser,
+  getPublicRoutinesByActivity,
+  createRoutine,
+  updateRoutine,
+  destroyRoutine
+} = require('./')
+const {
+  createUser,
+  getUser,
+  getUserById,
+  getUserByUsername
+} = require('./')
 
 async function dropTables() {
-  console.log('Dropping All Tables...');
+ 
   // drop all tables, in the correct order
-
+  try{
+    console.log('Dropping All Tables...');
+    client.query(`
+                DROP TABLE IF EXISTS routine_activities;
+                DROP TABLE IF EXISTS routines;
+                DROP TABLE IF EXISTS activities;
+                DROP TABLE IF EXISTS users;
+              `);
+console.log('Finished dropping tables!');
+} catch (error) {
+  console.error('Error while dropping tables!');
+  throw error;
+}
 }
 
 async function createTables() {
-  console.log("Starting to build tables...");
-  // create all tables, in the correct order
+  try{
+    console.log("Starting to build tables...");
 
+    await client.query(`
+      CREATE TABLE users(
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL
+        );
+
+      CREATE TABLE activities(
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        description TEXT NOT NULL
+      );
+
+      CREATE TABLE routines (
+        id          SERIAL       PRIMARY KEY,
+        "creatorId" INTEGER     REFERENCES users(id),
+        "isPublic"  BOOLEAN      DEFAULT False,
+        name        VARCHAR(255) UNIQUE NOT NULL,
+        goal        TEXT                NOT NULL
+        );
+
+        CREATE TABLE routine_activities(
+          id          SERIAL    PRIMARY KEY,
+          "routineId"  INTEGER   REFERENCES routines(id) ,
+          "activityId" INTEGER   REFERENCES activities(id),
+          count       INTEGER,
+          duration    INTEGER,
+          UNIQUE ("routineId", "activityId")
+          );
+    `);
+//ON DELETE CASCADE ---ra.routineI
+    console.log('Finished constructing tables!');
+  } catch (error) {
+    console.error('Error constructing tables!', error);
+    throw error;
+  }
 }
 
 /* 
@@ -19,7 +100,6 @@ async function createTables() {
 DO NOT CHANGE ANYTHING BELOW. This is default seed data, and will help you start testing, before getting to the tests. 
 
 */
-
 async function createInitialUsers() {
   console.log('Starting to create users...');
   try {
@@ -68,7 +148,7 @@ async function createInitialActivities() {
 async function createInitialRoutines() {
   try {
     console.log('starting to create routines...');
-
+console.log(createRoutine)
     const routinesToCreate = [
       {creatorId: 2, isPublic: false, name: 'Bicep Day', goal: 'Work the Back and Biceps.'},
       {creatorId: 1, isPublic: true, name: 'Chest Day', goal: 'To beef up the Chest and Triceps!'},
@@ -145,6 +225,7 @@ async function createInitialRoutineActivities() {
         duration: 15 
       },
     ]
+
     const routineActivities = await Promise.all(routineActivitiesToCreate.map(addActivityToRoutine));
     console.log('routine_activities created: ', routineActivities)
     console.log('Finished creating routine_activities!')

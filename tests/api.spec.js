@@ -1,4 +1,7 @@
+
+
 /* 
+@jest-environment node
 
 DO NOT CHANGE THIS FILE
 
@@ -13,7 +16,7 @@ const { JWT_SECRET = 'neverTell' } = process.env;
 
 const { rebuildDB } = require('../db/seedData');
 const { getUserById, createActivity, getPublicRoutinesByUser, getPublicRoutinesByActivity, getAllPublicRoutines, getRoutineById, createRoutine, getRoutineActivityById } = require('../db');
-const client = require('../db/client')
+const { client } = require('../db/client')
 
 describe('API', () => {
   let token, registeredUser;

@@ -1,5 +1,7 @@
 /* 
+
 DO NOT CHANGE THIS FILE
+
 */
 require('dotenv').config();
 const bcrypt = require('bcrypt');
@@ -7,7 +9,7 @@ const SALT_COUNT = 10;
 
 const { rebuildDB } = require('../db/seedData');
 const { getUserById, getAllActivities, getActivityById, createActivity, updateActivity, getRoutineById, getAllRoutines, getAllPublicRoutines, getAllRoutinesByUser, getPublicRoutinesByUser, getPublicRoutinesByActivity, createRoutine, updateRoutine, destroyRoutine, createUser, getUser, getRoutineActivitiesByRoutine, addActivityToRoutine, updateRoutineActivity, destroyRoutineActivity } = require('../db');
-const { client }= require('../db/client');
+const { client } = require('../db/client');
 
 describe('Database', () => {
   beforeAll(async() => {
@@ -160,7 +162,6 @@ describe('Database', () => {
       beforeAll(async() => {
         user = await getUserById(1); 
         [routine] = await getAllRoutinesByUser(user);
-
       })
       it('selects and return an array of all routines made by user, includes their activities', async () => {
         expect(routine).toEqual(expect.objectContaining({
@@ -283,7 +284,7 @@ describe('Database', () => {
     describe('destroyRoutine', () => {
       it('removes routine from database', async () => {
         await destroyRoutine(routineToCreateAndUpdate.id);
-         const {rows: [routine]} = await client.query(`
+        const {rows: [routine]} = await client.query(`
           SELECT * 
           FROM routines
           WHERE id = $1;
