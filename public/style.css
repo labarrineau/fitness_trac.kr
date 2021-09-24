@@ -1,0 +1,85 @@
+body {
+    display : flex ;
+    background-color : grey ;
+    color : white ;
+    text-align : center ; 
+    font-family : 'Georama', sans-serif ;
+    text-decoration : none ;
+    justify-content : center ;
+    margin: 20px;
+}
+#activity, #mypostmessages{
+    display : flex ; 
+    flex-wrap : wrap ;
+    justify-content: center;
+}
+#routine, #mypostmessages{
+    display : flex ; 
+    flex-wrap : wrap ;
+    justify-content: center;
+}
+#topmenu{
+    display : flex ;
+    justify-content : space-around;
+    align-items: center;
+}
+#greeting, #createnewpostsbutton, #viewallpostsbutton{
+    display : flex ;
+    justify-content : space-between;
+    align-items: center;
+    margin: 10px;
+}
+.description{
+    width: 170px; 
+    height: 100px;
+}
+#sendmessage{
+    margin: 10px;
+    width: 270px; 
+    height: 50px;
+    border-radius: 5px; 
+    border: black 2px solid;
+}
+.messages{
+    margin: 10px;
+    background-color: #C19A6B;
+    color:black;
+    border-radius: 10px;
+    border:2px solid black;
+}
+
+.junkwrap{
+
+    flex-wrap:wrap;
+    flex-direction:row;
+    background-image: url("Images/Ball_LandingPage_Background.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%; 
+    padding:10px;
+    margin:10px auto ;
+    border-radius: 10px;
+    border: #C19A6B solid 3px;
+    min-height: 500px;
+}
+.post{
+    background-color: white;
+    padding:10px;
+    margin:10px auto;
+    color:black;
+    border:black solid 2px;
+    width: 240px;
+    border-radius: 10px;
+   
+}
+.messagedOtherPosts{
+    justify-content:center ;
+    background-color: white;
+    padding:10px;
+    margin:10px auto;
+    color:black;
+    border:black solid 2px;
+    width: 240px;
+    border-radius: 10px;
+    min-height: 50px;
+}
